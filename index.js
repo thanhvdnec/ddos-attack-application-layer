@@ -1,10 +1,10 @@
 const os = require("os");
 const cluster = require("cluster");
 let numWorkers = os.cpus().length;
-const https = require("https");
+const https = require("http");
 
 const numOfRequests = 100; // Number of HTTP/HTTPS requests you want to make
-const URL_TO_ATTACK = ""; // The url you want to attack
+const URL_TO_ATTACK = "http://test-alb-396632589.us-east-1.elb.amazonaws.com/"; // The url you want to attack
 const makeHttpRequest = () => {
   https
     .get(URL_TO_ATTACK, (resp) => {
@@ -49,5 +49,4 @@ if (cluster.isPrimary) {
   for (let i = 0; i < Math.ceil(numOfRequests / numWorkers); i++) {
     makeHttpRequest();
   }
-  process.exit(1);
 }
